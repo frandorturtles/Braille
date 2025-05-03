@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traductor de Texto a Braille</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: vertical;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            min-height: 50px;
+            border: 1px dashed #ccc;
+        }
+        .braille-char {
+            font-family: 'Segoe UI Symbol', sans-serif;
+            font-size: 24px;
+            line-height: 1.5;
+        }
+        .info {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Traductor de Texto a TortugaBraille</h1>
+        
+        <textarea id="inputText" placeholder="Escribe aquí el texto que quieras traducir a Braille..."></textarea>
+        
+        <button onclick="translateToBraille()">Traducir a Braille</button>
+        <button onclick="clearText()">Limpiar</button>
+        
+        <div class="result" id="brailleResult">
+            <p>El resultado en Braille aparecerá aquí...</p>
+        </div>
+        
+        <div class="info">
+            <h3>Acerca del Braille:</h3>
+            <p>El sistema Braille es un método de lectura y escritura táctil para personas ciegas. Cada carácter está representado por una combinación de hasta 6 puntos en relieve organizados en una matriz de 2 columnas y 3 filas.</p>
+            <p>Este traductor convierte texto común a caracteres Unicode Braille. Ten en cuenta que no es Braille real (que requiere puntos en relieve), sino una representación visual.</p>
+        </div>
+    </div>
+
+    <script>
+        // Mapeo de caracteres a Braille Unicode
+        const brailleMap = {
+            'a': '⠁', 'b': '⠃', 'c': '⠉', 'd': '⠙', 'e': '⠑',
+            'f': '⠋', 'g': '⠛', 'h': '⠓', 'i': '⠊', 'j': '⠚',
+            'k': '⠅', 'l': '⠇', 'm': '⠍', 'n': '⠝', 'o': '⠕',
+            'p': '⠏', 'q': '⠟', 'r': '⠗', 's': '⠎', 't': '⠞',
+            'u': '⠥', 'v': '⠧', 'w': '⠺', 'x': '⠭', 'y': '⠽',
+            'z': '⠵', 
+            '1': '⠼⠁', '2': '⠼⠃', '3': '⠼⠉', '4': '⠼⠙', '5': '⠼⠑',
+            '6': '⠼⠋', '7': '⠼⠛', '8': '⠼⠓', '9': '⠼⠊', '0': '⠼⠚',
+            ' ': ' ', '.': '⠲', ',': '⠂', ';': '⠆', ':': '⠒',
+            '?': '⠦', '!': '⠖', "'": '⠄', '-': '⠤', '(': '⠐⠣',
+            ')': '⠐⠜', '/': '⠸⠌', '[': '⠦', ']': '⠴', '=': '⠐⠶',
+            '+': '⠐⠖', '*': '⠐⠔', '<': '⠐⠣', '>': '⠐⠜', '@': '⠈⠁',
+            '#': '⠼', '$': '⠈⠎', '%': '⠨⠴', '^': '⠘', '&': '⠈⠯'
+        };
+
+        function translateToBraille() {
+            const inputText = document.getElementById('inputText').value.toLowerCase();
+            let brailleText = '';
+            
+            for (let i = 0; i < inputText.length; i++) {
+                const char = inputText[i];
+                brailleText += brailleMap[char] || char;
+            }
+            
+            const resultDiv = document.getElementById('brailleResult');
+            resultDiv.innerHTML = `<p class="braille-char">${brailleText}</p>`;
+        }
+
+        function clearText() {
+            document.getElementById('inputText').value = '';
+            document.getElementById('brailleResult').innerHTML = '<p>El resultado en Braille aparecerá aquí...</p>';
+        }
+    </script>
+</body>
+</html>
